@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<title>Homework</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="css/reset.css">		
+</head>
+<body>
+	<div id="playContainer">
+		<div class="pic"></div>
+		<div id="container">
+			<div id="keybord"><img src="images/1.png" alt=""><p> - движение</p></div>
+			<div id="space"><img src="images/2.png" alt=""><p> - стоп</p></div>
+			<div id="delete"><img src="images/4.png" alt=""><p> - начать заново</p></div>
+			
+			<div class="rezult">
+				<h3>Результаты</h3>
+				<table>
+				  <thead>
+					  <tr>
+						  <td>№</td>
+						  <td>Имя игрока</td>
+						  <td>Счет</td>
+					  </tr>										
+				  </thead>
+				  <tbody></tbody>
+			  </table>
+			  <button id="clear">Очистить</button>
+			</div>
+		</div>
+		<div>
+			<div class="counter">
+				<p id="amount">Фрукты: <span></span></p> 
+				<p id="clock">Время: <span></span></p>
+			</div>
+			<div class="containerArea">
+				<div id="image"></div>
+				<div class="playArea">
+					<div id="fency1" class="fency"></div>	 
+					<div id="fency2" class="fency"></div>	
+					<div id="fency3" class="fency"></div>	
+					<div id="fency4" class="fency"></div>	
+					<div id="fency5" class="fency"></div>	
+					<div id="fency6" class="fency"></div>	
+					<div id="fency7" class="fency"></div>	
+					<div id="fency8" class="fency"></div>					 
+				</div> 
+			</div>
+		</div>
+	</div>
+	
+	<button type="button" class="btn btn-primary btn-modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		Окошко, если выиграл.
+	</button>
+
+	<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+		Правила игры
+	</button>
+
+	<button type="button" class="btn btn-primary btn-modal" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+		Проиграл
+	</button>
+
+	
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Класссс! Ты молодец!</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<p>Ты набрал: <span id="modalScore"></span> очков</p>
+			<form action="" name="rezult">
+				<label for="userName">Оставь свое имя в анналах истории</label>
+				<input type="text" name="userName">
+				<button type="button" class="btn btn-primary" id="butUser">ОК!</button>
+			</form>
+		</div>			
+		</div>
+	</div>
+	</div>
+
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="staticBackdropLabel">Правила игры</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			  <p>Игра начинается нажатием кнопки "Старт". Убирай кубики, появляющиеся в игровой области, наведением курсора на кубик с последующим кликом левой кнопкой мыши. По мере убирания с поля кубиков, на поле появляюстя новые кубики (от нуля до трех). Уборка каждого кубика приносит игроку 10 очков. Набранные очки и оставшееся время отображаются в полях над игровой областью. Цель игры - за одну минуту набрать наибольшее количество очков.</p>
+			  <p>По истечению времени есть возможность записать свое имя и набранные очки в таблицу результатов.</p>
+			  <p>Удачи!</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			  <p>Ghbdtn lasdkfj;alsdkf</p>			
+		  </div>
+		</div>
+	  </div>
+
+	<script>
+		"use strict";
+		let field = document.querySelector('.playArea');
+		let heightField = field.getBoundingClientRect().height;		
+		let widthField = field.getBoundingClientRect().width;		
+		let yField = field.getBoundingClientRect().y;		
+		let xField = field.getBoundingClientRect().x;		
+		let pic = document.getElementsByClassName('pic')[0];
+		let fruitsImage = ["url(images/ameixa.png)", "url(images/apple1.png)","url(images/avokado.png)","url(images/banana.png)","url(images/blackberry.png)","url(images/cherry.png)","url(images/figs.png)","url(images/grape.png)","url(images/kiwi.png)","url(images/lemon1.png)","url(images/orange1.png)","url(images/peach.png)","url(images/plum1.png)","url(images/plum2.png)","url(images/pomegranate6.png)","url(images/raspberries.png)","url(images/raspberry.png)","url(images/strawberry.png)","url(images/strawberry1.png)","url(images/watermelon.png)"];		
+		let maxRight = xField+widthField;
+		let maxBottom = yField+heightField;
+		let body = document.body;
+		let clock = document.querySelector('#clock>span');
+		let amount = document.querySelector('#amount>span');		
+		let x=xField, y=yField;
+		let int;
+		let intR;
+		let modalScore = document.getElementById('modalScore');
+		let userName = document.querySelector('input[name="userName"]');
+		let once = false;
+		let once2 = false;
+		let usersArray = [];
+		let table = document.querySelector('tbody');
+		let close = document.querySelector(".btn-close");
+		let fences = document.querySelectorAll(".fency");
+		
+		pic.style.left = x+"px";
+		pic.style.top = y+"px";
+		pic.style.transform = 'rotate(0deg)';
+		
+		let count = 30;
+		let score = 0;
+		let timeGame = 40;
+		let interval;
+		
+		let countFruits;
+		
+		function timer(){
+			timeGame-=1;
+			clock.innerHTML = timeGame;			
+			if(timeGame==0) {
+				clearInterval(interval);
+				clearInterval(countFruits);
+				moveStop();				
+				// body.removeEventListener('keydown', listener);
+			}
+		}
+
+		
+
+		function createFruit(){
+			for (let i=0; i<30; i++){
+				let fruit =  document.createElement('div');
+				fruit.style.backgroundImage = fruitsImage[Math.floor(Math.random() * fruitsImage.length)];
+				fruit.classList = 'fruit';
+				field.prepend(fruit);
+				fruit.style.left = Math.floor(Math.random()*(widthField-30))+'px';
+				fruit.style.top = Math.floor(Math.random()*(heightField-30))+'px';      												
+   			}
+		}	
+		function deleteFruits(){
+			let fruits = document.querySelectorAll('.fruit');
+			for (let i=0; i<fruits.length; i++){					
+					fruits[i].remove();
+			}
+		}
+
+		createFruit();
+
+		function moveRight(){			
+			x+=1;
+			pic.style.left = x+'px';
+			pic.style.transform = 'rotate(0deg)';
+			if(maxRight<=(pic.getBoundingClientRect().x+60)){
+				moveStop();
+				pic.style.left = (maxRight-60)+'px';
+			}
+			let fruits = document.querySelectorAll('.fruit');
+			for (let i=0; i<fruits.length; i++){				
+				if((pic.getBoundingClientRect().x+60)==(fruits[i].getBoundingClientRect().x)&&(pic.getBoundingClientRect().y+60)>fruits[i].getBoundingClientRect().y&&pic.getBoundingClientRect().y<(fruits[i].getBoundingClientRect().y+30)){
+					fruits[i].remove();			
+				}
+			}
+			
+
+		}
+				
+		function moveStop(){
+			clearInterval(intR);	
+		}
+
+		function moveLeft(){
+			x-=1;
+			pic.style.left = x+'px';
+			pic.style.transform = 'scale(-1, 1)';
+			if(pic.getBoundingClientRect().x<=xField) {
+				moveStop();
+				pic.style.left = xField+'px';
+			}
+			let fruits = document.querySelectorAll('.fruit');
+			for (let i=0; i<fruits.length; i++){				
+				if(pic.getBoundingClientRect().x==(fruits[i].getBoundingClientRect().x+30)&&(pic.getBoundingClientRect().y+60)>fruits[i].getBoundingClientRect().y&&pic.getBoundingClientRect().y<(fruits[i].getBoundingClientRect().y+30)){
+					fruits[i].remove();					
+				}	
+			}
+		}
+
+		function moveTop(){
+			y-=1;
+			pic.style.top = y+'px';
+			pic.style.transform = 'rotate(-90deg)';
+			
+			if(pic.getBoundingClientRect().y<=yField) {
+				moveStop();
+				pic.style.top = yField+'px';	
+			}
+			let fruits = document.querySelectorAll('.fruit');
+			for (let i=0; i<fruits.length; i++){				
+				if(pic.getBoundingClientRect().y==(fruits[i].getBoundingClientRect().y+30)&&(pic.getBoundingClientRect().x+60)>fruits[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<(fruits[i].getBoundingClientRect().x+30)){
+					fruits[i].remove();					
+				}	
+			}						
+
+			for (let i=0; i<fences.length; i++){
+				// console.log(pic.getBoundingClientRect().y);
+				// console.log(fences[0].getBoundingClientRect().y+fences[0].getBoundingClientRect().height);
+				// console.log(pic.getBoundingClientRect().x);
+				// console.log(fences[0].getBoundingClientRect().x);
+				// console.log(fences[0].getBoundingClientRect().height);
+
+				if(pic.getBoundingClientRect().y==fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height&&pic.getBoundingClientRect().x+pic.getBoundingClientRect().width>fences[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<fences[i].getBoundingClientRect().width) {
+					console.log(fences[0].getBoundingClientRect().y);
+					console.log(fences[0].getBoundingClientRect().height);
+					console.log(pic.style.top);
+					// pic.style.top = fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height+'px';
+				}			
+
+			}
+		}
+
+		function moveBottom(){
+			y+=1;
+			pic.style.top = y+'px';
+			pic.style.transform = 'rotate(90deg)';	
+			if(maxBottom-1<=(pic.getBoundingClientRect().y+60)) {
+				moveStop();
+				pic.style.top = (maxBottom-61)+'px';
+			}
+			let fruits = document.querySelectorAll('.fruit');
+			for (let i=0; i<fruits.length; i++){				
+				if((pic.getBoundingClientRect().y+60)==(fruits[i].getBoundingClientRect().y)&&(pic.getBoundingClientRect().x+60)>fruits[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<(fruits[i].getBoundingClientRect().x+30)){
+					fruits[i].remove();					
+				}	
+			}	
+		}
+
+		function moveClear(){
+			x=xField;
+			y=yField;
+			pic.style.top = yField+'px';
+			pic.style.left = xField+'px';		
+		}
+		
+		function onceInclude(){
+			if(!once){				
+					interval =	setInterval(timer, 1000);
+					countFruits = setInterval(getCount, 300);
+					once = true;				
+				}
+		}
+
+		let listener = function (event) {
+			if(event.keyCode==38) {				
+				moveStop();
+				intR=setInterval(moveTop, 10);
+				onceInclude();
+			}				
+			else if(event.keyCode==39) {
+				moveStop();
+				intR=setInterval(moveRight, 10);				
+				onceInclude();				
+				}
+			else if(event.keyCode==37) {
+				moveStop();
+				intR=setInterval(moveLeft, 10);	
+				onceInclude();
+				}
+			else if(event.keyCode==40) {
+				moveStop();
+				intR=setInterval(moveBottom, 10);
+				onceInclude();	
+				}
+			else if(event.keyCode==32) {
+				moveStop();
+				clearInterval(interval);
+				once = false;
+			}	
+				
+			else if(event.keyCode==46) {
+				moveStop();
+				moveClear();
+				deleteFruits();
+				createFruit();
+				clearInterval(interval);
+				timeGame = 20;
+				once = false;
+				once2 = false;
+			}			
+		};
+
+
+		body.addEventListener('keydown', listener);
+
+		// body.addEventListener('keydown', (event)=> {
+			
+		// 	if(event.keyCode==38) {				
+		// 		moveStop();
+		// 		intR=setInterval(moveTop, 10);
+		// 		onceInclude();
+		// 	}				
+		// 	else if(event.keyCode==39) {
+		// 		moveStop();
+		// 		intR=setInterval(moveRight, 10);				
+		// 		onceInclude();				
+		// 		}
+		// 	else if(event.keyCode==37) {
+		// 		moveStop();
+		// 		intR=setInterval(moveLeft, 10);	
+		// 		onceInclude();
+		// 		}
+		// 	else if(event.keyCode==40) {
+		// 		moveStop();
+		// 		intR=setInterval(moveBottom, 10);
+		// 		onceInclude();	
+		// 		}
+		// 	else if(event.keyCode==32) {
+		// 		moveStop();
+		// 		clearInterval(interval);
+		// 		once = false;
+		// 	}	
+				
+		// 	else if(event.keyCode==46) {
+		// 		moveStop();
+		// 		moveClear();
+		// 		deleteFruits();
+		// 		createFruit();
+		// 		clearInterval(interval);
+		// 		timeGame = 20;
+		// 		once = false;
+		// 	}			
+		// })
+
+		
+		let getCount = function() {
+			let fruits = document.querySelectorAll('.fruit');
+			amount.innerHTML = fruits.length;
+			if(fruits.length==0&&timeGame>0){				
+				if(!once2) {
+					clearInterval(countFruits);
+					document.querySelector('.btn-modal').click();
+					score = timeGame*10;
+					modalScore.innerHTML = score;
+					once2 = true;
+				}				
+			}
+		}
+
+		
+		butUser.addEventListener('click', (e)=>{	
+			e.preventDefault();			
+			console.log(userName.value);
+			let array = new Map();			
+			array.set(htmlEntities(userName.value), score);
+			usersArray.push(array); 
+			console.log(usersArray);			
+			close.click();
+															
+			array.forEach(function(value,key) {
+				table.innerHTML += '<tr><td>'+(usersArray.length)+'</td><td>'+key+'</td><td>'+value+'</td></tr>';
+			});	
+		});	
+
+		
+
+
+
+		function htmlEntities(str) {
+   			return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+		};
+
+					
+					
+	
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>	
+</body>
+</html>
+
