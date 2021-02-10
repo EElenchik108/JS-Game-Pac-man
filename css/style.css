@@ -230,3 +230,25 @@ input[type=text]{
 	width: 5px;
 	height: 90px;
 }
+
+#fency9{
+	top: 347px;
+	left: 347px;
+}
+#fency10{
+	top: 610px;
+	left: 347px;
+}
+#fency11{
+	top: 0px;
+	left: 347px;
+}
+#fency11, #fency10{
+	width: 5px;
+	height: 90px;
+}
+
+#fency9{
+	width: 5px;
+	height: 5px;
+}

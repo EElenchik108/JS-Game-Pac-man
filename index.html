@@ -47,7 +47,10 @@
 					<div id="fency5" class="fency"></div>	
 					<div id="fency6" class="fency"></div>	
 					<div id="fency7" class="fency"></div>	
-					<div id="fency8" class="fency"></div>					 
+					<div id="fency8" class="fency"></div>
+					<div id="fency9" class="fency"></div>
+					<div id="fency10" class="fency"></div>
+					<div id="fency11" class="fency"></div>					 
 				</div> 
 			</div>
 		</div>
@@ -169,8 +172,8 @@
 				fruit.style.backgroundImage = fruitsImage[Math.floor(Math.random() * fruitsImage.length)];
 				fruit.classList = 'fruit';
 				field.prepend(fruit);
-				fruit.style.left = Math.floor(Math.random()*(widthField-30))+'px';
-				fruit.style.top = Math.floor(Math.random()*(heightField-30))+'px';      												
+				fruit.style.left = Math.floor(Math.random()*(widthField-fruit.getBoundingClientRect().width))+'px';
+				fruit.style.top = Math.floor(Math.random()*(heightField-fruit.getBoundingClientRect().height))+'px';      												
    			}
 		}	
 		function deleteFruits(){
@@ -186,18 +189,25 @@
 			x+=1;
 			pic.style.left = x+'px';
 			pic.style.transform = 'rotate(0deg)';
-			if(maxRight<=(pic.getBoundingClientRect().x+60)){
+			if(maxRight<=(pic.getBoundingClientRect().x+pic.getBoundingClientRect().width)){
 				moveStop();
-				pic.style.left = (maxRight-60)+'px';
+				pic.style.left = (maxRight-pic.getBoundingClientRect().width)+'px';
 			}
 			let fruits = document.querySelectorAll('.fruit');
 			for (let i=0; i<fruits.length; i++){				
-				if((pic.getBoundingClientRect().x+60)==(fruits[i].getBoundingClientRect().x)&&(pic.getBoundingClientRect().y+60)>fruits[i].getBoundingClientRect().y&&pic.getBoundingClientRect().y<(fruits[i].getBoundingClientRect().y+30)){
+				if((pic.getBoundingClientRect().x+pic.getBoundingClientRect().width)==(fruits[i].getBoundingClientRect().x)&&(pic.getBoundingClientRect().y+60)>fruits[i].getBoundingClientRect().y&&pic.getBoundingClientRect().y<(fruits[i].getBoundingClientRect().y+fruits[i].getBoundingClientRect().height)){
 					fruits[i].remove();			
 				}
 			}
 			
+			for (let i=0; i<fences.length; i++){	
 
+				if(fences[i].getBoundingClientRect().x==(pic.getBoundingClientRect().x+pic.getBoundingClientRect().width) && (pic.getBoundingClientRect().y+pic.getBoundingClientRect().height)>fences[i].getBoundingClientRect().y && pic.getBoundingClientRect().y<(fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height)) {
+					moveStop();
+					pic.style.left = (fences[i].getBoundingClientRect().x-pic.getBoundingClientRect().width)+'px';
+					x-=1;
+				}
+			}
 		}
 				
 		function moveStop(){
@@ -214,13 +224,20 @@
 			}
 			let fruits = document.querySelectorAll('.fruit');
 			for (let i=0; i<fruits.length; i++){				
-				if(pic.getBoundingClientRect().x==(fruits[i].getBoundingClientRect().x+30)&&(pic.getBoundingClientRect().y+60)>fruits[i].getBoundingClientRect().y&&pic.getBoundingClientRect().y<(fruits[i].getBoundingClientRect().y+30)){
+				if(pic.getBoundingClientRect().x==(fruits[i].getBoundingClientRect().x+fruits[i].getBoundingClientRect().width)&&(pic.getBoundingClientRect().y+pic.getBoundingClientRect().height)>fruits[i].getBoundingClientRect().y&&pic.getBoundingClientRect().y<(fruits[i].getBoundingClientRect().y+fruits[i].getBoundingClientRect().height)){
 					fruits[i].remove();					
 				}	
 			}
+			for (let i=0; i<fences.length; i++){
+				if((fences[i].getBoundingClientRect().x+fences[i].getBoundingClientRect().width)==pic.getBoundingClientRect().x && (pic.getBoundingClientRect().y+pic.getBoundingClientRect().height)>fences[i].getBoundingClientRect().y && pic.getBoundingClientRect().y<(fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height)) {
+					moveStop();
+					pic.style.left = (fences[i].getBoundingClientRect().x+fences[i].getBoundingClientRect().width)+'px';
+					x+=1;
+				}
+			}
 		}
 
-		function moveTop(){
+		function moveTop(){			
 			y-=1;
 			pic.style.top = y+'px';
 			pic.style.transform = 'rotate(-90deg)';
@@ -229,29 +246,27 @@
 				moveStop();
 				pic.style.top = yField+'px';	
 			}
-			let fruits = document.querySelectorAll('.fruit');
-			for (let i=0; i<fruits.length; i++){				
-				if(pic.getBoundingClientRect().y==(fruits[i].getBoundingClientRect().y+30)&&(pic.getBoundingClientRect().x+60)>fruits[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<(fruits[i].getBoundingClientRect().x+30)){
-					fruits[i].remove();					
-				}	
-			}						
 
 			for (let i=0; i<fences.length; i++){
-				// console.log(pic.getBoundingClientRect().y);
-				// console.log(fences[0].getBoundingClientRect().y+fences[0].getBoundingClientRect().height);
-				// console.log(pic.getBoundingClientRect().x);
-				// console.log(fences[0].getBoundingClientRect().x);
-				// console.log(fences[0].getBoundingClientRect().height);
+				let maxTop = fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height;
+				let maxLeftPic = pic.getBoundingClientRect().x+pic.getBoundingClientRect().width;
+				let maxLeftFency = fences[i].getBoundingClientRect().x+fences[i].getBoundingClientRect().width;			
 
-				if(pic.getBoundingClientRect().y==fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height&&pic.getBoundingClientRect().x+pic.getBoundingClientRect().width>fences[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<fences[i].getBoundingClientRect().width) {
-					console.log(fences[0].getBoundingClientRect().y);
-					console.log(fences[0].getBoundingClientRect().height);
-					console.log(pic.style.top);
-					// pic.style.top = fences[i].getBoundingClientRect().y+fences[i].getBoundingClientRect().height+'px';
-				}			
+				if(pic.getBoundingClientRect().y==maxTop && maxLeftPic>fences[i].getBoundingClientRect().x && pic.getBoundingClientRect().x<maxLeftFency) {
+					moveStop();
+					pic.style.top = maxTop+'px';
+					y+=1;
+				}
+			}
 
+			let fruits = document.querySelectorAll('.fruit');
+			for (let i=0; i<fruits.length; i++){				
+				if(pic.getBoundingClientRect().y==(fruits[i].getBoundingClientRect().y+fruits[i].getBoundingClientRect().height)&&(pic.getBoundingClientRect().x+pic.getBoundingClientRect().width)>fruits[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<(fruits[i].getBoundingClientRect().x+fruits[i].getBoundingClientRect().width)){
+					fruits[i].remove();					
+				}	
 			}
 		}
+
 
 		function moveBottom(){
 			y+=1;
@@ -263,9 +278,21 @@
 			}
 			let fruits = document.querySelectorAll('.fruit');
 			for (let i=0; i<fruits.length; i++){				
-				if((pic.getBoundingClientRect().y+60)==(fruits[i].getBoundingClientRect().y)&&(pic.getBoundingClientRect().x+60)>fruits[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<(fruits[i].getBoundingClientRect().x+30)){
+				if((pic.getBoundingClientRect().y+pic.getBoundingClientRect().height)==(fruits[i].getBoundingClientRect().y)&&(pic.getBoundingClientRect().x+pic.getBoundingClientRect().width)>fruits[i].getBoundingClientRect().x&&pic.getBoundingClientRect().x<(fruits[i].getBoundingClientRect().x+fruits[i].getBoundingClientRect().width)){
 					fruits[i].remove();					
 				}	
+			}
+
+			for (let i=0; i<fences.length; i++){
+				let maxLeftPic = pic.getBoundingClientRect().x+pic.getBoundingClientRect().width;
+				let maxTop = pic.getBoundingClientRect().y+pic.getBoundingClientRect().height;
+				let maxLeftFency = fences[i].getBoundingClientRect().x+fences[i].getBoundingClientRect().width;			
+
+				if(fences[i].getBoundingClientRect().y==maxTop && maxLeftPic>fences[i].getBoundingClientRect().x && pic.getBoundingClientRect().x<maxLeftFency) {
+					moveStop();
+					pic.style.top = (fences[i].getBoundingClientRect().y-pic.getBoundingClientRect().height)+'px';
+					y-=1;
+				}
 			}	
 		}
 
@@ -323,48 +350,8 @@
 			}			
 		};
 
-
 		body.addEventListener('keydown', listener);
-
-		// body.addEventListener('keydown', (event)=> {
-			
-		// 	if(event.keyCode==38) {				
-		// 		moveStop();
-		// 		intR=setInterval(moveTop, 10);
-		// 		onceInclude();
-		// 	}				
-		// 	else if(event.keyCode==39) {
-		// 		moveStop();
-		// 		intR=setInterval(moveRight, 10);				
-		// 		onceInclude();				
-		// 		}
-		// 	else if(event.keyCode==37) {
-		// 		moveStop();
-		// 		intR=setInterval(moveLeft, 10);	
-		// 		onceInclude();
-		// 		}
-		// 	else if(event.keyCode==40) {
-		// 		moveStop();
-		// 		intR=setInterval(moveBottom, 10);
-		// 		onceInclude();	
-		// 		}
-		// 	else if(event.keyCode==32) {
-		// 		moveStop();
-		// 		clearInterval(interval);
-		// 		once = false;
-		// 	}	
-				
-		// 	else if(event.keyCode==46) {
-		// 		moveStop();
-		// 		moveClear();
-		// 		deleteFruits();
-		// 		createFruit();
-		// 		clearInterval(interval);
-		// 		timeGame = 20;
-		// 		once = false;
-		// 	}			
-		// })
-
+		
 		
 		let getCount = function() {
 			let fruits = document.querySelectorAll('.fruit');
