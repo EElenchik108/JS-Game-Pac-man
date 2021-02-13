@@ -252,3 +252,7 @@ input[type=text]{
 	width: 5px;
 	height: 5px;
 }
+
+.lose{padding: 2%; text-align: center;}
+.lose p{margin-top: 20px; text-align: center;}
+.modal-body{line-height: 2em}
